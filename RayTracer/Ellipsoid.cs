@@ -75,10 +75,11 @@ namespace rt
             
             if (finalT < minDist || finalT > maxDist)
                 return new Intersection();
+
+            Vector V = line.CoordinateToPosition(finalT);
+            Vector surfaceNormal = new Vector(2 * V.X / (A * A), 2 * V.Y / (B * B), 2 * V.Z / (C * C)).Normalize();
             
-            return new Intersection(true, true, this, line, finalT);//use smallestT to remove the check
-            
-            return new Intersection();
+            return new Intersection(true, true, this, line, finalT, surfaceNormal);//use smallestT to remove the check
         }
     }
 }

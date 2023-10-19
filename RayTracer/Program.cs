@@ -22,219 +22,33 @@ namespace rt
             // Scene
             var geometries = new Geometry[]
             {
-                /*
-                new Sphere(new Vector(0, 0, 0), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(1,0,1,1)),
-                new Sphere(new Vector(30, -30, 0), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(0,0,1,1)),
-                new Sphere(new Vector(30, -60, 0), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(0,1,0,1)),
-                new Sphere(new Vector(0, 0, -70), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(1,0,1,1)),
-                new Sphere(new Vector(30, -30, -70), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(0,0,1,1)),
-                new Sphere(new Vector(30, -60, -70), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(0,1,0,1))
-                    */
-                /*
-                new Sphere(new Vector(0, 0, 20), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(0,0,1,1)),
+                new Ellipsoid(new Vector(  0.0, -25.0, 100.0), new Vector(1.0, 1.0, 1.0), 5.0, Color.WHITE),
                 
-                new Sphere(new Vector(0, 0, 0), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(0,0,0,1)),
+                new Ellipsoid(new Vector( 15.0, -25.0, 100.0), new Vector(2.0, 0.5, 0.5), 5.0, Color.RED),
+                new Ellipsoid(new Vector( 35.0, -25.0, 100.0), new Vector(2.0, 0.5, 0.5), 5.0, Color.RED),
+                new Ellipsoid(new Vector( 55.0, -25.0, 100.0), new Vector(2.0, 0.5, 0.5), 5.0, Color.RED),
                 
-                new Sphere(new Vector(0, 0, -20), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(1,1,0,1)),
+                new Ellipsoid(new Vector(  0.0, -10.0, 100.0), new Vector(0.5, 2.0, 0.5), 5.0, Color.GREEN),
+                new Ellipsoid(new Vector(  0.0,  10.0, 100.0), new Vector(0.5, 2.0, 0.5), 5.0, Color.GREEN),
+                new Ellipsoid(new Vector(  0.0,  30.0, 100.0), new Vector(0.5, 2.0, 0.5), 5.0, Color.GREEN),
                 
-                new Sphere(new Vector(0, -20, 20), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(1,0,0,1)),
+                new Ellipsoid(new Vector(  0.0, -25.0, 115.0), new Vector(0.5, 0.5, 2.0), 5.0, Color.BLUE),
+                new Ellipsoid(new Vector(  0.0, -25.0, 135.0), new Vector(0.5, 0.5, 2.0), 5.0, Color.BLUE),
+                new Ellipsoid(new Vector(  0.0, -25.0, 155.0), new Vector(0.5, 0.5, 2.0), 5.0, Color.BLUE),
                 
-                new Sphere(new Vector(0, -20, 0), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(0,1,0,1)),
+                new Ellipsoid(new Vector( 35.0,  10.0, 100.0), new Vector(5.0, 5.0, 0.5), 5.0, Color.YELLOW),
+                new Ellipsoid(new Vector(  0.0,  10.0, 135.0), new Vector(0.5, 5.0, 5.0), 5.0, Color.CYAN),
+                new Ellipsoid(new Vector( 35.0, -25.0, 135.0), new Vector(5.0, 0.5, 5.0), 5.0, Color.MAGENTA),
                 
-                new Sphere(new Vector(0, -20, -20), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(1,0,1,1)),
-                
-                new Sphere(new Vector(0, 20, 20), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(0,1,1,1)),
-                
-                new Sphere(new Vector(0, 20, 0), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(0,0.3,0,1)),
-                
-                new Sphere(new Vector(0, 20, -20), 20, new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10),
-                    new Color(0.4,0,1,1))
-                */
-                new Sphere(
-                    new Vector(-50.0, -25.0, 175.0),
-                    30.0,
-                    new Material(
-                        new Color(0.1, 0.0, 0.0, 1.0),
-                        new Color(0.3, 0.0, 0.0, 1.0),
-                        new Color(0.5, 0.0, 0.0, 1.0),
-                        10
-                    ),
-                    new Color(0.8, 0.0, 0.0, 1.0)),
-                new Sphere(
-                    new Vector(-10.0, 0.0, 100.0),
-                    10.0,
-                    new Material(
-                        new Color(0.1, 0.1, 0.0, 1.0),
-                        new Color(0.3, 0.3, 0.0, 1.0),
-                        new Color(0.5, 0.5, 0.0, 1.0),
-                        10
-                    ),
-                    new Color(0.8, 0.8, 0.0, 1.0)
-                ),
-                new Sphere(
-                    new Vector(0.0, 0.0, 200.0),
-                    40.0,
-                    new Material(
-                        new Color(0.0, 0.1, 0.0, 1.0),
-                        new Color(0.0, 0.3, 0.0, 1.0),
-                        new Color(0.0, 0.5, 0.5, 1.0),
-                        10
-                    ),
-                    new Color(0.0, 0.8, 0.0, 1.0)
-                ),
-                new Sphere(new Vector(0.0, -50.0, 200.0),
-                    10.0,
-                    new Material(
-                        new Color(0.1, 0.1, 0.1, 1.0),
-                        new Color(0.3, 0.3, 0.3, 1.0),
-                        new Color(0.5, 0.5, 0.5, 1.0),
-                        10
-                    ),
-                    new Color(0.8, 0.8, 0.8, 1.0)
-                ),
-                new Sphere(
-                    new Vector(10.0, 0.0, 20.0),
-                    5.0,
-                    new Material(
-                        new Color(0.0, 0.1, 0.1, 1.0),
-                        new Color(0.0, 0.3, 0.3, 1.0),
-                        new Color(0.0, 0.5, 0.5, 1.0),
-                        10
-                    ),
-                    new Color(0.0, 0.8, 0.8, 1.0)
-                ),
-                new Sphere(
-                    new Vector(-70.0, 0.0, 100.0),
-                    10.0,
-                    new Material(
-                        new Color(0.1, 0.0, 0.1, 1.0),
-                        new Color(0.3, 0.0, 0.3, 1.0),
-                        new Color(0.5, 0.0, 0.5, 1.0),
-                        10
-                    ),
-                    new Color(0.8, 0.0, 0.8, 1.0)
-                ),
-                new Sphere(
-                    new Vector(50.0, 25.0, 75.0),
-                    50.0,
-                    new Material(
-                        new Color(0.0, 0.0, 0.1, 1.0),
-                        new Color(0.0, 0.0, 0.3, 1.0),
-                        new Color(0.0, 0.0, 0.5, 1.0),
-                        10
-                    ),
-                    new Color(0.0, 0.0, 0.8, 1.0)
-                ),
-                new Sphere(
-                    new Vector(-75.0, 15.0, -75.0),
-                    5.0,
-                    new Material(
-                        new Color(0.07, 0.07, 0.07, 1.0),
-                        new Color(0.2, 0.2, 0.2, 1.0),
-                        new Color(0.3, 0.4, 0.4, 1.0),
-                        10
-                    ),
-                    new Color(0.07, 0.07, 0.07, 1.0)
-                )
+                new Sphere(   new Vector(-25.0, -50.0,  75.0),                           25.0, Color.ORANGE)
             };
 
             var lights = new Light[]
             {
-                new Light(
-                    new Vector(-50.0, 0.0, 0.0),
-                    new Color(0.8, 0.8, 0.8, 1.0),
-                    new Color(0.8, 0.8, 0.8, 1.0),
-                    new Color(0.8, 0.8, 0.8, 1.0),
-                    1.0
-                ),
-                new Light(
-                    new Vector(20.0, 20.0, 0.0),
-                    new Color(0.8, 0.8, 0.8, 1.0),
-                    new Color(0.8, 0.8, 0.8, 1.0),
-                    new Color(0.8, 0.8, 0.8, 1.0),
-                    1.0
-                ),
-                new Light(
-                    new Vector(0.0, 0.0, 300.0),
-                    new Color(0.8, 0.8, 0.8, 1.0),
-                    new Color(0.8, 0.8, 0.8, 1.0),
-                    new Color(0.8, 0.8, 0.8, 1.0),
-                    1.0
-                )
+                new Light(new Vector( 65.0,  40.0,  90.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), 1.0),
+                new Light(new Vector(-10.0,  40.0, 165.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), 1.0),
+                new Light(new Vector( 65.0, -35.0, 165.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), 1.0),
+                new Light(new Vector( 65.0,  40.0, 165.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), 1.0)
             };
             var rt = new RayTracer(geometries, lights);
 
@@ -242,13 +56,13 @@ namespace rt
             const int height = 600;
 
             // Go around an approximate middle of the scene and generate frames
-            var middle = new Vector(0.0, 0.0, 100.0);
-            var up = new Vector(-Math.Sqrt(0.125), -Math.Sqrt(0.75), Math.Sqrt(0.125)).Normalize();
-            var first = (middle ^ up).Normalize();
-            const double dist = 150.0;
+            var middle = new Vector(0.0, -5.0, 100.0);
+            var up = new Vector(0, -1, 0).Normalize();
+            var first = new Vector(0, 0, 1).Normalize();
+            const double dist = 95.0;
             const int n = 90;
             const double step = 360.0 / n;
-
+            
             var tasks = new Task[n];
             for (var i = 0; i < n; i++)
             {
@@ -259,13 +73,12 @@ namespace rt
                     var a = (step * k) * Math.PI / 180.0;
                     var ca =  Math.Cos(a);
                     var sa =  Math.Sin(a);
-
+            
                     var dir = first * ca + (up ^ first) * sa + up * (up * first) * (1.0 - ca);
-
-                    
+            
                     var camera = new Camera(
-                        middle + dir * dist,
-                        dir * -1.0,
+                        middle - dir * dist,
+                        dir,
                         up,
                         65.0,
                         160.0,
@@ -273,15 +86,14 @@ namespace rt
                         0.0,
                         1000.0
                     );
-
-                    
+            
                     var filename = frames+"/" + $"{k + 1:000}" + ".png";
-
+            
                     rt.Render(camera, width, height, filename);
                     Console.WriteLine($"Frame {k+1}/{n} completed");
                 });
             }
-
+            
             Task.WaitAll(tasks);
         }
     }

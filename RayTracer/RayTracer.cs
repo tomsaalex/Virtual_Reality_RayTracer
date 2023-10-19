@@ -16,9 +16,7 @@ namespace rt
 
         private double ImageToViewPlane(int n, int imgSize, double viewPlaneSize)
         {
-            var u = n * viewPlaneSize / imgSize;
-            u -= viewPlaneSize / 2;
-            return u;
+            return -n * viewPlaneSize / imgSize + viewPlaneSize / 2;
         }
 
         private Intersection FindFirstIntersection(Line ray, double minDist, double maxDist)
@@ -46,13 +44,14 @@ namespace rt
 
         private bool IsLit(Vector point, Light light)
         {
-            // ADD CODE HERE: Detect whether the given point has a clear line of sight to the given light
+            // TODO: ADD CODE HERE
             return true;
         }
 
         public void Render(Camera camera, int width, int height, string filename)
         {
-            var background = new Color();
+            var background = new Color(0.2, 0.2, 0.2, 1.0);
+
             var viewParallel = (camera.Up ^ camera.Direction).Normalize();
             var image = new Image(width, height);
 
@@ -73,7 +72,7 @@ namespace rt
 
                     Color pixelColor = background;
                     if(geometryIntersection.Valid  && geometryIntersection.Visible)
-                     pixelColor += geometryIntersection.Geometry.Color;
+                        pixelColor += geometryIntersection.Geometry.Color;
                     
                     image.SetPixel(i, j, pixelColor);
                 }

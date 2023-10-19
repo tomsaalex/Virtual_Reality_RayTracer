@@ -17,3 +17,22 @@ D:\Facultate\Semestrul 5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net
 D:\Facultate\Semestrul 5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\RayTracer.pdb
 D:\Facultate\Semestrul 5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\RayTracer.genruntimeconfig.cache
 D:\Facultate\Semestrul 5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\ref\RayTracer.dll
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\bin\Debug\net7.0\RayTracer.exe
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\bin\Debug\net7.0\RayTracer.deps.json
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\bin\Debug\net7.0\RayTracer.runtimeconfig.json
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\bin\Debug\net7.0\RayTracer.dll
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\bin\Debug\net7.0\RayTracer.pdb
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\bin\Debug\net7.0\System.Drawing.Common.dll
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\bin\Debug\net7.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\RayTracer.csproj.AssemblyReference.cache
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\RayTracer.GeneratedMSBuildEditorConfig.editorconfig
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\RayTracer.AssemblyInfoInputs.cache
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\RayTracer.AssemblyInfo.cs
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\RayTracer.csproj.CoreCompileInputs.cache
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\RayTracer.csproj.CopyComplete
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\RayTracer.dll
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\refint\RayTracer.dll
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\RayTracer.pdb
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\RayTracer.genruntimeconfig.cache
+D:\Facultate\Semestrul_5\Virtual Reality\Lab_1\RayTracer\RayTracer\obj\Debug\net7.0\ref\RayTracer.dll

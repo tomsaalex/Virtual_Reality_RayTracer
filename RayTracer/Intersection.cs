@@ -4,10 +4,12 @@
     {
         public bool Valid{ get; set; }
         public bool Visible{ get; set; }
-        public double T{ get; set; }
-        public Vector Position{ get; set; }
-        public Geometry Geometry{ get; set; }
-        public Line Line{ get; set; }
+        public double T{ get; }
+        public Vector Position{ get; }
+        public Geometry Geometry{ get; }
+        public Line Line{ get; }
+        
+        public Vector Normal { get; }
 
         public Intersection() {
             Geometry = null;
@@ -16,14 +18,16 @@
             Visible = false;
             T = 0;
             Position = null;
+            Normal = null;
         }
 
-        public Intersection(bool valid, bool visible, Geometry geometry, Line line, double t) {
+        public Intersection(bool valid, bool visible, Geometry geometry, Line line, double t, Vector normal) {
             Geometry = geometry;
             Line = line;
             Valid = valid;
             Visible = visible;
             T = t;
+            Normal = normal;
             Position = Line.CoordinateToPosition(t);
         }
     }

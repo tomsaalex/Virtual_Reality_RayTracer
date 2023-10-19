@@ -4,6 +4,10 @@ namespace rt
 {
     public class Vector
     {
+        public static Vector I = new Vector(1, 0, 0);
+        public static Vector J = new Vector(0, 1, 0);
+        public static Vector K = new Vector(0, 0, 1);
+        
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
@@ -57,6 +61,20 @@ namespace rt
         public static Vector operator /(Vector v, double k)
         {
             return new Vector(v.X / k, v.Y / k, v.Z / k);
+        }
+
+        public void Multiply(Vector k)
+        {
+            X *= k.X;
+            Y *= k.Y;
+            Z *= k.Z;
+        }
+
+        public void Divide(Vector k)
+        {
+            X /= k.X;
+            Y /= k.Y;
+            Z /= k.Z;
         }
 
         public double Length2()

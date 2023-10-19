@@ -1,0 +1,69 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Facultate\\Semestrul_5\\Virtual Reality\\Lab_1\\RayTracer\\RayTracer\\RayTracer.csproj": {}
+  },
+  "projects": {
+    "D:\\Facultate\\Semestrul_5\\Virtual Reality\\Lab_1\\RayTracer\\RayTracer\\RayTracer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Facultate\\Semestrul_5\\Virtual Reality\\Lab_1\\RayTracer\\RayTracer\\RayTracer.csproj",
+        "projectName": "RayTracer",
+        "projectPath": "D:\\Facultate\\Semestrul_5\\Virtual Reality\\Lab_1\\RayTracer\\RayTracer\\RayTracer.csproj",
+        "packagesPath": "C:\\Users\\tomsa\\.nuget\\packages\\",
+        "outputPath": "D:\\Facultate\\Semestrul_5\\Virtual Reality\\Lab_1\\RayTracer\\RayTracer\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tomsa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[8.0.0-rc.1.23419.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

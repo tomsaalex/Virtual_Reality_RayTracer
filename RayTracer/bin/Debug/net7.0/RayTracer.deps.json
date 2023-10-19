@@ -1,0 +1,67 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "RayTracer/1.0.0": {
+        "dependencies": {
+          "System.Drawing.Common": "8.0.0-rc.1.23419.5"
+        },
+        "runtime": {
+          "RayTracer.dll": {}
+        }
+      },
+      "Microsoft.Win32.SystemEvents/8.0.0-rc.1.23419.4": {
+        "runtime": {
+          "lib/net7.0/Microsoft.Win32.SystemEvents.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.41904"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net7.0/Microsoft.Win32.SystemEvents.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.41904"
+          }
+        }
+      },
+      "System.Drawing.Common/8.0.0-rc.1.23419.5": {
+        "dependencies": {
+          "Microsoft.Win32.SystemEvents": "8.0.0-rc.1.23419.4"
+        },
+        "runtime": {
+          "lib/net7.0/System.Drawing.Common.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.41905"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "RayTracer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Win32.SystemEvents/8.0.0-rc.1.23419.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-O24zLigy+/i/CjXvCyzpZDIYpg1qTmgh3zWoFvd8QvobvAlKWsczwkRELe2mm9uQbSmP8DptLw088ducgXiSAg==",
+      "path": "microsoft.win32.systemevents/8.0.0-rc.1.23419.4",
+      "hashPath": "microsoft.win32.systemevents.8.0.0-rc.1.23419.4.nupkg.sha512"
+    },
+    "System.Drawing.Common/8.0.0-rc.1.23419.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0EepFskHve8itdic76LHleAbVDCTGEgm5xnl8cwp+9d0TRU4ftcFsFiWsC1HKGe7VZN1fHKvRj9xOUJk5G8LRA==",
+      "path": "system.drawing.common/8.0.0-rc.1.23419.5",
+      "hashPath": "system.drawing.common.8.0.0-rc.1.23419.5.nupkg.sha512"
+    }
+  }
+}

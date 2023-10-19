@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "8iNENYbv3Y5ZOWBFDdN1DHXsHRI50bIki0Ylyn20Eh1JOs1SjWwQPkDWb3+yN4C+cNGBHb9ig8bj1447/JMagg==",
+  "success": true,
+  "projectFilePath": "D:\\Facultate\\Semestrul_5\\Virtual Reality\\Lab_1\\RayTracer\\RayTracer\\RayTracer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tomsa\\.nuget\\packages\\microsoft.win32.systemevents\\8.0.0-rc.1.23419.4\\microsoft.win32.systemevents.8.0.0-rc.1.23419.4.nupkg.sha512",
+    "C:\\Users\\tomsa\\.nuget\\packages\\system.drawing.common\\8.0.0-rc.1.23419.5\\system.drawing.common.8.0.0-rc.1.23419.5.nupkg.sha512"
+  ],
+  "logs": []
+}

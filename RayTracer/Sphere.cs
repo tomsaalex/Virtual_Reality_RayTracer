@@ -24,9 +24,9 @@ namespace rt
             double e = line.Dx.Z;
 
             double term1 = a * a + c * c + e * e;
-            double term2 = 2 * a * b - 2 * Center.X + 2 * c * d - 2 * c * Center.Y + 2 * e * f - 2 * e * Center.Z;
+            double term2 = 2 * a * b - 2 * a * Center.X + 2 * c * d - 2 * c * Center.Y + 2 * e * f - 2 * e * Center.Z;
             double term3 = b * b + Center.X * Center.X - 2 * b * Center.X + d * d + Center.Y * Center.Y -
-                2 * d * Center.Y + f * f + Center.Z * Center.Z - 2 * f * Center.Z - Radius;
+                2 * d * Center.Y + f * f + Center.Z * Center.Z - 2 * f * Center.Z - Radius * Radius;
 
             double delta = term2 * term2 - 4 * term1 * term3;
 

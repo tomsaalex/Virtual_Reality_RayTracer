@@ -77,7 +77,7 @@ namespace rt
                 return new Intersection();
 
             Vector V = line.CoordinateToPosition(finalT);
-            Vector surfaceNormal = new Vector(2 * V.X / (A * A), 2 * V.Y / (B * B), 2 * V.Z / (C * C)).Normalize();
+            Vector surfaceNormal = new Vector((V.X - Center.X) / (A * A), (V.Y - Center.Y) / (B * B), (V.Z - Center.Z) / (C * C)).Normalize();
             
             return new Intersection(true, true, this, line, finalT, surfaceNormal);//use smallestT to remove the check
         }

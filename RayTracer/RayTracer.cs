@@ -44,8 +44,19 @@ namespace rt
 
         private bool IsLit(Vector point, Light light)
         {
-            // TODO: ADD CODE HERE
-            return true;
+            Line pointToLightRay = new Line(point, light.Position);
+            double pointToLightDistance = 10000;//(point - light.Position).Length();
+
+            Intersection intersectionInFrontOfLight = FindFirstIntersection(pointToLightRay, 0.3, pointToLightDistance);
+            
+            if (!intersectionInFrontOfLight.Valid || !intersectionInFrontOfLight.Visible)
+            {
+                return true;
+            }
+
+            return Math.Abs(intersectionInFrontOfLight.Position.X - point.X) <= 0.0001 &&
+                   Math.Abs(intersectionInFrontOfLight.Position.Y - point.Y) <= 0.0001 &&
+                   Math.Abs(intersectionInFrontOfLight.Position.Z - point.Z) <= 0.0001;
         }
 
         public void Render(Camera camera, int width, int height, string filename)
@@ -70,11 +81,47 @@ namespace rt
 
                     Intersection geometryIntersection =  FindFirstIntersection(sightLine, camera.FrontPlaneDistance, camera.BackPlaneDistance);
 
-                    Color pixelColor = background;
-                    if(geometryIntersection.Valid  && geometryIntersection.Visible)
-                        pixelColor += geometryIntersection.Geometry.Color;
+                    Color pixelColor = new Color(0, 0, 0, 1);
+                    if (geometryIntersection.Valid && geometryIntersection.Visible)
+                    {
+                        Vector pointOnSurface = sightLine.CoordinateToPosition(geometryIntersection.T);
+                        Vector N = geometryIntersection.Normal;
+                        Vector E = (camera.Position - pointOnSurface).Normalize();
+                        
+                        foreach (Light light in lights)
+                        {
+
+                            Vector T = (light.Position - pointOnSurface).Normalize();
+                            
+                            double NTDotProduct = N * T;
+                            
+                            Vector R = (N * NTDotProduct * 2 - T).Normalize();
+                            
+                            double ERDotProduct = E * R;
+                            
+                            
+                            pixelColor += geometryIntersection.Geometry.Material.Ambient * light.Ambient;
+                            
+                            
+                            
+                            if (IsLit(pointOnSurface, light))
+                            {
+                                if(NTDotProduct > 0)
+                                    pixelColor += geometryIntersection.Geometry.Material.Diffuse * light.Diffuse * NTDotProduct;
+                                if(ERDotProduct > 0)
+                                    pixelColor += geometryIntersection.Geometry.Material.Specular * light.Specular * Math.Pow(ERDotProduct, geometryIntersection.Geometry.Material.Shininess);
+                            }
+                        }
+                    }
+
+                    double redComponent   = Math.Clamp(pixelColor.Red, 0, 1);
+                    double blueComponent  = Math.Clamp(pixelColor.Blue, 0, 1);
+                    double greenComponent = Math.Clamp(pixelColor.Green, 0, 1);
+                    double alphaComponent = Math.Clamp(pixelColor.Alpha, 0, 1);
+
+                    Color newPixelColor = new Color(redComponent, greenComponent, blueComponent, alphaComponent);
                     
-                    image.SetPixel(i, j, pixelColor);
+                    image.SetPixel(i, j, newPixelColor);
                 }
             }
 

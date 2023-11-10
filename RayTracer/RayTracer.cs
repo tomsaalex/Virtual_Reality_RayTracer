@@ -21,7 +21,7 @@ namespace rt
 
         private Intersection FindFirstIntersection(Line ray, double minDist, double maxDist)
         {
-            var intersection = new Intersection();
+            var intersection = Intersection.NONE;
 
             foreach (var geometry in geometries)
             {
@@ -81,9 +81,10 @@ namespace rt
 
                     Intersection geometryIntersection =  FindFirstIntersection(sightLine, camera.FrontPlaneDistance, camera.BackPlaneDistance);
 
-                    Color pixelColor = new Color(0, 0, 0, 1);
+                    Color pixelColor = background;
                     if (geometryIntersection.Valid && geometryIntersection.Visible)
                     {
+                        pixelColor = new Color(0, 0, 0, 1);
                         Vector pointOnSurface = sightLine.CoordinateToPosition(geometryIntersection.T);
                         Vector N = geometryIntersection.Normal;
                         Vector E = (camera.Position - pointOnSurface).Normalize();

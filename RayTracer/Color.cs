@@ -4,14 +4,15 @@ namespace rt
 {
     public class Color
     {
-        public static Color RED =     new Color(1.0, 0.0, 0.0, 1.0); 
-        public static Color GREEN =   new Color(0.0, 1.0, 0.0, 1.0); 
-        public static Color BLUE =    new Color(0.0, 0.0, 1.0, 1.0); 
-        public static Color YELLOW =  new Color(1.0, 1.0, 0.0, 1.0); 
-        public static Color MAGENTA = new Color(1.0, 0.0, 1.0, 1.0); 
-        public static Color CYAN =    new Color(0.0, 1.0, 1.0, 1.0); 
-        public static Color WHITE =   new Color(1.0, 1.0, 1.0, 1.0); 
-        public static Color ORANGE =  new Color(1.0, 0.5, 0.0, 1.0); 
+        public static readonly Color NONE =     new Color(0.0, 0.0, 0.0, 0.0); 
+        public static readonly Color RED =     new Color(1.0, 0.0, 0.0, 1.0); 
+        public static readonly Color GREEN =   new Color(0.0, 1.0, 0.0, 1.0); 
+        public static readonly Color BLUE =    new Color(0.0, 0.0, 1.0, 1.0); 
+        public static readonly Color YELLOW =  new Color(1.0, 1.0, 0.0, 1.0); 
+        public static readonly Color MAGENTA = new Color(1.0, 0.0, 1.0, 1.0); 
+        public static readonly Color CYAN =    new Color(0.0, 1.0, 1.0, 1.0); 
+        public static readonly Color WHITE =   new Color(1.0, 1.0, 1.0, 1.0); 
+        public static readonly Color ORANGE =  new Color(1.0, 0.5, 0.0, 1.0); 
 
         public double Red { get; set; }
         public double Green { get; set; }
@@ -49,7 +50,8 @@ namespace rt
             var b = Math.Min((int)Math.Ceiling(Blue * 255), 255);
             var a = Math.Min((int)Math.Ceiling(Alpha * 255), 255);
 
-            return System.Drawing.Color.FromArgb(a, r, g, b);
+            return System.Drawing.Color.FromArgb(255, r, g, b);
+            //TODO: check why this changed return System.Drawing.Color.FromArgb(a, r, g, b);
         }
 
         public static Color operator +(Color a, Color b)

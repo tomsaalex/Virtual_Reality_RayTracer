@@ -40,10 +40,16 @@ namespace rt
                 new Ellipsoid(new Vector(  0.0,  10.0, 135.0), new Vector(0.5, 5.0, 5.0), 5.0, Color.CYAN),
                 new Ellipsoid(new Vector( 35.0, -25.0, 135.0), new Vector(5.0, 0.5, 5.0), 5.0, Color.MAGENTA),
                 
-                new Sphere(   new Vector(-25.0, -50.0,  75.0),                           25.0, Color.ORANGE)
+                new Sphere(   new Vector(-25.0, -50.0,  75.0),                           25.0, Color.ORANGE),
+                
+                new RawCtMask("../../../raw/walnut.dat", "../../../raw/walnut.raw", new Vector(-5.0, -20.0, 105.0), 0.2,
+                    new ColorMap()
+                        .Add(1, 1, new Color(0.7, 0.0, 0.0, 0.05))
+                        .Add(2, 2, new Color(0.0, 0.7, 0.0, 1.0))
+                ),  
             };
 
-            var lights = new Light[]
+            var lights = new []
             {
                 new Light(new Vector( 65.0,  40.0,  90.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), 1.0),
                 new Light(new Vector(-10.0,  40.0, 165.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), new Color(0.8, 0.8, 0.8, 1.0), 1.0),

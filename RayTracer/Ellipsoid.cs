@@ -79,7 +79,8 @@ namespace rt
             Vector V = line.CoordinateToPosition(finalT);
             Vector surfaceNormal = new Vector((V.X - Center.X) / (A * A), (V.Y - Center.Y) / (B * B), (V.Z - Center.Z) / (C * C)).Normalize();
             
-            return new Intersection(true, true, this, line, finalT, surfaceNormal);//use smallestT to remove the check
+            // TODO: Consider actually refactoring the code to get the right material and color here. Might not be necessary though.
+            return new Intersection(true, true, this, line, finalT, surfaceNormal, Material.BLANK, Color.NONE);//use smallestT to remove the check
         }
     }
 }

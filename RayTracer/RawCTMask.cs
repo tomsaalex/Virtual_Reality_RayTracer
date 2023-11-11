@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -25,6 +26,7 @@ public class RawCtMask: Geometry
         var lines = File.ReadLines(datFile);
         foreach (var line in lines)
         {
+            //TODO: possibly wrong regex? Why separate by \ and t instead of that \t tab character?
             var kv = Regex.Replace(line, "[:\\t ]+", ":").Split(":");
             if (kv[0] == "Resolution")
             {
@@ -53,6 +55,11 @@ public class RawCtMask: Geometry
     
     private ushort Value(int x, int y, int z)
     {
+        if (x == -1) x = 0;
+        if (y == -1) y = 0;
+        if (z == -1) z = 0;
+
+        
         if (x < 0 || y < 0 || z < 0 || x >= _resolution[0] || y >= _resolution[1] || z >= _resolution[2])
         {
             return 0;
@@ -61,10 +68,118 @@ public class RawCtMask: Geometry
         return _data[z * _resolution[1] * _resolution[0] + y * _resolution[0] + x];
     }
 
+    public Intersection intersectsPlane(Line line, double a, double b, double c, double d, double e, double f, Vector referencePoint, double minDist, double maxDist)
+    {
+        double m, n, p, q;
+        double A, B, C, D, E, F;
+        double x0, y0, z0;
+        
+        x0 = referencePoint.X;
+        y0 = referencePoint.Y;
+        z0 = referencePoint.Z;
+        
+        A = line.Dx.X;
+        C = line.Dx.Y;
+        E = line.Dx.Z;
+        
+        B = line.X0.X;
+        D = line.X0.Y;
+        F = line.X0.Z;
+        
+        m = b * f - e * c;
+        n = c * d - a * f;
+        p = a * e - b * d;
+        q = -x0 * b * f + x0 * e * c - y0 * c * d + y0 * a * f - z0 * a * e + z0 * b * d;
+
+        if (Math.Abs(m * A + n * C + p * E) <= 0.0001)
+           return Intersection.NONE;
+        
+
+        double t = - (m * B + n * D + p * F + q) / (m * A + n * C + p * E);
+        
+        if(t < 0 && t < minDist || t > maxDist)
+            return Intersection.NONE;
+
+        Vector intersectionPosition = line.CoordinateToPosition(t);
+        int[] indexes = GetIndexes(intersectionPosition);
+
+        if (indexes[0] == -1) indexes[0] = 0;
+        if (indexes[1] == -1) indexes[1] = 0;
+        if (indexes[2] == -1) indexes[2] = 0;
+        if (indexes[0] < 0 || indexes[1] < 0 || indexes[2] < 0 || indexes[0] >= _resolution[0] ||
+            indexes[1] >= _resolution[1] || indexes[2] >= _resolution[2])
+        {
+            return Intersection.NONE;
+        }
+        
+        Material testMaterial = new Material(new Color(1, 0, 0, 1), new Color(1, 0, 0, 1), new Color(1, 0, 0, 1), 50);
+        
+        return new Intersection(true, true, this, line, t, GetNormal(intersectionPosition), testMaterial, Color.RED);
+    }
+
+    public Color sampleColorThroughCube(Line line, double t, int[] oldIndices)
+    {
+        double copyT = t;
+
+        Vector coordinatePosition = line.CoordinateToPosition(copyT); 
+        int[] indexes = GetIndexes(coordinatePosition);
+
+        if (indexes[0] == -1) indexes[0] = 0;
+        if (indexes[1] == -1) indexes[1] = 0;
+        if (indexes[2] == -1) indexes[2] = 0;
+        if (indexes[0] < 0 || indexes[1] < 0 || indexes[2] < 0 || indexes[0] >= _resolution[0] ||
+            indexes[1] >= _resolution[1] || indexes[2] >= _resolution[2])
+        {
+            return new Color(1, 1, 1, 0);
+        }
+        
+        //Maybe not necessary. This ensures a cell's color is only sampled once.
+        if (oldIndices.Length != 0)
+        {
+            if (oldIndices[0] == indexes[0] && oldIndices[0] == indexes[0] && oldIndices[0] == indexes[0])
+                return sampleColorThroughCube(line, copyT + 1, indexes);
+        }
+        
+        Color c = GetColor(coordinatePosition);
+        return c * c.Alpha + sampleColorThroughCube(line, copyT + 1, indexes) * (1 - c.Alpha);
+    }
+    
     public override Intersection GetIntersection(Line line, double minDist, double maxDist)
     {
-        // ADD CODE HERE
-        return Intersection.NONE;
+        List<Intersection> intersections = new List<Intersection>();
+        
+        intersections.Add(intersectsPlane(line, 1, 0, 0, 0, 0, 1, _v0, minDist, maxDist));
+        intersections.Add(intersectsPlane(line, 1, 0, 0, 0, 1, 0, _v0, minDist, maxDist));
+        intersections.Add(intersectsPlane(line, 0, 0, 1, 0, 1, 0, _v0, minDist, maxDist));
+        
+        intersections.Add(intersectsPlane(line, 1, 0, 0, 0, 0, 1, _v1, minDist, maxDist));
+        intersections.Add(intersectsPlane(line, 1, 0, 0, 0, 1, 0, _v1, minDist, maxDist));
+        intersections.Add(intersectsPlane(line, 0, 0, 1, 0, 1, 0, _v1, minDist, maxDist));
+        
+        intersections[0].Material.Ambient = new Color(1f, 1f, 1f, 1);
+        intersections[1].Material.Ambient = new Color(0f, 1f, 0f, 1);
+        intersections[2].Material.Ambient = new Color(1f, 0f, 0f, 1);
+        intersections[3].Material.Ambient = new Color(0f, 0f, 1f, 1);
+        intersections[4].Material.Ambient = new Color(1f, 1f, 0f, 1);
+        intersections[5].Material.Ambient = new Color(1f, 0f, 1f, 1);
+        
+        Intersection closestIntersection = Intersection.NONE;
+        double t = Double.PositiveInfinity;
+        
+        foreach (var intersection in intersections)
+        {
+            if (intersection.Visible && intersection.Valid && intersection.T < t)
+            {
+                closestIntersection = intersection;
+                t = intersection.T;
+            }
+        }
+
+        //Color c = sampleColorThroughCube(line, t, new int[0]);
+
+        //closestIntersection.Material = Material.FromColor(c);
+        
+        return closestIntersection;
     }
     
     private int[] GetIndexes(Vector v)

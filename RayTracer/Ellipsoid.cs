@@ -80,7 +80,7 @@ namespace rt
             Vector surfaceNormal = new Vector((V.X - Center.X) / (A * A), (V.Y - Center.Y) / (B * B), (V.Z - Center.Z) / (C * C)).Normalize();
             
             // TODO: Consider actually refactoring the code to get the right material and color here. Might not be necessary though.
-            return new Intersection(true, true, this, line, finalT, surfaceNormal, Material.BLANK, Color.NONE);//use smallestT to remove the check
+            return new Intersection(true, true, this, line, finalT, surfaceNormal, this.Material, this.Color);//use smallestT to remove the check
         }
     }
 }

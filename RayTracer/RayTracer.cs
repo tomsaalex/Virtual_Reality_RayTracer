@@ -80,7 +80,14 @@ namespace rt
                     Line sightLine = new Line(rayTracingOrigin, rayTracingVector);
 
                     Intersection geometryIntersection =  FindFirstIntersection(sightLine, camera.FrontPlaneDistance, camera.BackPlaneDistance);
-
+                    if (filename.Contains("17"))
+                    {
+                        if (i == 450 && j == 420)
+                        {
+                            Console.WriteLine(geometryIntersection.Material.Ambient.Red + " " + geometryIntersection.Material.Ambient.Green + " " + geometryIntersection.Material.Ambient.Blue + " ");
+                        }
+                    }
+                    
                     Color pixelColor = background;
                     if (geometryIntersection.Valid && geometryIntersection.Visible)
                     {
@@ -101,16 +108,16 @@ namespace rt
                             double ERDotProduct = E * R;
                             
                             
-                            pixelColor += geometryIntersection.Geometry.Material.Ambient * light.Ambient;
+                            pixelColor += geometryIntersection.Material.Ambient * light.Ambient;
                             
                             
                             
                             if (IsLit(pointOnSurface, light))
                             {
                                 if(NTDotProduct > 0)
-                                    pixelColor += geometryIntersection.Geometry.Material.Diffuse * light.Diffuse * NTDotProduct;
+                                    pixelColor += geometryIntersection.Material.Diffuse * light.Diffuse * NTDotProduct;
                                 if(ERDotProduct > 0)
-                                    pixelColor += geometryIntersection.Geometry.Material.Specular * light.Specular * Math.Pow(ERDotProduct, geometryIntersection.Geometry.Material.Shininess);
+                                    pixelColor += geometryIntersection.Material.Specular * light.Specular * Math.Pow(ERDotProduct, geometryIntersection.Geometry.Material.Shininess);
                             }
                         }
                     }

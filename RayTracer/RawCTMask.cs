@@ -55,11 +55,14 @@ public class RawCtMask: Geometry
     
     private ushort Value(int x, int y, int z)
     {
-        if (x == -1) x = 0;
-        if (y == -1) y = 0;
-        if (z == -1) z = 0;
-
+        /*if (x >= -10 && x < 0) x = 0;
+        if (y >= -10 && y < 0) y = 0;
+        if (z >= -10 && z < 0) z = 0;
         
+        if (x >= _resolution[0] && x < _resolution[0] + 10) x = _resolution[0] - 1;
+        if (y >= _resolution[1] && y < _resolution[1] + 10) y = _resolution[1] - 1;
+        if (z >= _resolution[2] && z < _resolution[2] + 10) z = _resolution[2] - 1;
+*/
         if (x < 0 || y < 0 || z < 0 || x >= _resolution[0] || y >= _resolution[1] || z >= _resolution[2])
         {
             return 0;
@@ -91,23 +94,29 @@ public class RawCtMask: Geometry
         p = a * e - b * d;
         q = -x0 * b * f + x0 * e * c - y0 * c * d + y0 * a * f - z0 * a * e + z0 * b * d;
 
-        if (Math.Abs(m * A + n * C + p * E) <= 0.0001)
+        if (Math.Abs(m * A + n * C + p * E) <= 0.000001)
            return Intersection.NONE;
         
 
         double t = - (m * B + n * D + p * F + q) / (m * A + n * C + p * E);
         
-        if(t < 0 && t < minDist || t > maxDist)
-            return Intersection.NONE;
+        //if(t < 0 && t < minDist || t > maxDist)
+        //    return Intersection.NONE;
 
         Vector intersectionPosition = line.CoordinateToPosition(t);
         int[] indexes = GetIndexes(intersectionPosition);
 
-        if (indexes[0] == -1) indexes[0] = 0;
-        if (indexes[1] == -1) indexes[1] = 0;
-        if (indexes[2] == -1) indexes[2] = 0;
-        if (indexes[0] < 0 || indexes[1] < 0 || indexes[2] < 0 || indexes[0] >= _resolution[0] ||
-            indexes[1] >= _resolution[1] || indexes[2] >= _resolution[2])
+        /*if (indexes[0] >= -10 && indexes[0] < 0) indexes[0] = 0;
+        if (indexes[1] >= -10 && indexes[1] < 0) indexes[1] = 0;
+        if (indexes[2] >= -10 && indexes[2] < 0) indexes[2] = 0;
+        
+        
+        if (indexes[0] >= _resolution[0] && indexes[0] < _resolution[0] + 10) indexes[0] = _resolution[0] - 1;
+        if (indexes[1] >= _resolution[1] && indexes[1] < _resolution[1] + 10) indexes[1] = _resolution[1] - 1;
+        if (indexes[2] >= _resolution[2] && indexes[2] < _resolution[2] + 10) indexes[2] = _resolution[2] - 1;*/
+        
+        if (indexes[0] < 0 || indexes[1] < 0 || indexes[2] < 0 || indexes[0] > _resolution[0] ||
+            indexes[1] > _resolution[1] || indexes[2] > _resolution[2])
         {
             return Intersection.NONE;
         }
@@ -123,12 +132,10 @@ public class RawCtMask: Geometry
 
         Vector coordinatePosition = line.CoordinateToPosition(copyT); 
         int[] indexes = GetIndexes(coordinatePosition);
-
-        if (indexes[0] == -1) indexes[0] = 0;
-        if (indexes[1] == -1) indexes[1] = 0;
-        if (indexes[2] == -1) indexes[2] = 0;
-        if (indexes[0] < 0 || indexes[1] < 0 || indexes[2] < 0 || indexes[0] >= _resolution[0] ||
-            indexes[1] >= _resolution[1] || indexes[2] >= _resolution[2])
+        
+        // TODO: I don't understand why this is correct. The index value is correct in both 0 and in _resolution[0/1/2]. Omit either one and you get weird rendering errors. Not sure why.
+        if (indexes[0] < 0 || indexes[1] < 0 || indexes[2] < 0 || indexes[0] > _resolution[0] ||
+            indexes[1] > _resolution[1] || indexes[2] > _resolution[2])
         {
             return new Color(1, 1, 1, 0);
         }
@@ -175,9 +182,9 @@ public class RawCtMask: Geometry
             }
         }
 
-        //Color c = sampleColorThroughCube(line, t, new int[0]);
+        Color c = sampleColorThroughCube(line, t, new int[0]);
 
-        //closestIntersection.Material = Material.FromColor(c);
+        closestIntersection.Material = Material.FromColor(c);
         
         return closestIntersection;
     }

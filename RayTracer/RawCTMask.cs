@@ -183,8 +183,12 @@ public class RawCtMask: Geometry
         }
 
         Color c = sampleColorThroughCube(line, t, new int[0]);
-
         closestIntersection.Material = Material.FromColor(c);
+        
+        // Not the most elegant way to do this, probably, but it hides the background of the MRI.
+        // The partially see-though parts are still mixed with the default color though.
+        if(Math.Abs(c.Blue - 1) <= 0.00001 && Math.Abs(c.Green - 1) <= 0.00001 && Math.Abs(c.Red - 1) <= 0.00001 && c.Alpha <= 0.00001)
+            return Intersection.NONE;
         
         return closestIntersection;
     }

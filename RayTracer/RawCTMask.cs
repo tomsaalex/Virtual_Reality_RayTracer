@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Numerics;
 using System.Text.RegularExpressions;
 
 namespace rt;
@@ -41,9 +42,12 @@ public class RawCtMask: Geometry
             }
         }
 
+        //_v0 = position - new Vector(_resolution[0]*_thickness[0]*scale, _resolution[1]*_thickness[1]*scale, _resolution[2]*_thickness[2]*scale);
+        //_v1 = position + new Vector(_resolution[0]*_thickness[0]*scale, _resolution[1]*_thickness[1]*scale, _resolution[2]*_thickness[2]*scale);
         _v0 = position;
         _v1 = position + new Vector(_resolution[0]*_thickness[0]*scale, _resolution[1]*_thickness[1]*scale, _resolution[2]*_thickness[2]*scale);
-
+        Console.WriteLine(_v0.X + " " + _v0.Y + " " + _v0.Z);
+        Console.WriteLine(_v1.X + " " + _v1.Y + " " + _v1.Z);
         var len = _resolution[0] * _resolution[1] * _resolution[2];
         _data = new byte[len];
         using FileStream f = new FileStream(rawFile, FileMode.Open, FileAccess.Read);
@@ -55,14 +59,6 @@ public class RawCtMask: Geometry
     
     private ushort Value(int x, int y, int z)
     {
-        /*if (x >= -10 && x < 0) x = 0;
-        if (y >= -10 && y < 0) y = 0;
-        if (z >= -10 && z < 0) z = 0;
-        
-        if (x >= _resolution[0] && x < _resolution[0] + 10) x = _resolution[0] - 1;
-        if (y >= _resolution[1] && y < _resolution[1] + 10) y = _resolution[1] - 1;
-        if (z >= _resolution[2] && z < _resolution[2] + 10) z = _resolution[2] - 1;
-*/
         if (x < 0 || y < 0 || z < 0 || x >= _resolution[0] || y >= _resolution[1] || z >= _resolution[2])
         {
             return 0;
@@ -71,8 +67,25 @@ public class RawCtMask: Geometry
         return _data[z * _resolution[1] * _resolution[0] + y * _resolution[0] + x];
     }
 
+    public struct NutData
+    {
+        public Color c;
+        public Vector normal;
+        public double t;
+
+        public NutData(Color c, Vector normal, double t)
+        {
+            this.c = c;
+            this.normal = normal;
+            this.t = t;
+        }
+    }
+    
     public Intersection intersectsPlane(Line line, double a, double b, double c, double d, double e, double f, Vector referencePoint, double minDist, double maxDist)
     {
+        // Note: In this function, we NEED to allow intersections with negative t. Otherwise, the model will not render if the camera is inside the box, but outside the visible model.
+        // See: Frame 33
+        
         double m, n, p, q;
         double A, B, C, D, E, F;
         double x0, y0, z0;
@@ -100,20 +113,12 @@ public class RawCtMask: Geometry
 
         double t = - (m * B + n * D + p * F + q) / (m * A + n * C + p * E);
         
-        //if(t < 0 && t < minDist || t > maxDist)
+        //if(t < 0 /*&& t < minDist || t > maxDist*/)
         //    return Intersection.NONE;
 
         Vector intersectionPosition = line.CoordinateToPosition(t);
         int[] indexes = GetIndexes(intersectionPosition);
 
-        /*if (indexes[0] >= -10 && indexes[0] < 0) indexes[0] = 0;
-        if (indexes[1] >= -10 && indexes[1] < 0) indexes[1] = 0;
-        if (indexes[2] >= -10 && indexes[2] < 0) indexes[2] = 0;
-        
-        
-        if (indexes[0] >= _resolution[0] && indexes[0] < _resolution[0] + 10) indexes[0] = _resolution[0] - 1;
-        if (indexes[1] >= _resolution[1] && indexes[1] < _resolution[1] + 10) indexes[1] = _resolution[1] - 1;
-        if (indexes[2] >= _resolution[2] && indexes[2] < _resolution[2] + 10) indexes[2] = _resolution[2] - 1;*/
         
         if (indexes[0] < 0 || indexes[1] < 0 || indexes[2] < 0 || indexes[0] > _resolution[0] ||
             indexes[1] > _resolution[1] || indexes[2] > _resolution[2])
@@ -125,40 +130,52 @@ public class RawCtMask: Geometry
         
         return new Intersection(true, true, this, line, t, GetNormal(intersectionPosition), testMaterial, Color.RED);
     }
-
-    public Color sampleColorThroughCube(Line line, double t, int[] oldIndices)
+    
+    public NutData sampleColorThroughCube(Line line, double t, int[] oldIndices)
     {
-        double copyT = t;
-
-        Vector coordinatePosition = line.CoordinateToPosition(copyT); 
+        double TStepSize = 0.1;
+        Vector coordinatePosition = line.CoordinateToPosition(t); 
         int[] indexes = GetIndexes(coordinatePosition);
         
         // TODO: I don't understand why this is correct. The index value is correct in both 0 and in _resolution[0/1/2]. Omit either one and you get weird rendering errors. Not sure why.
         if (indexes[0] < 0 || indexes[1] < 0 || indexes[2] < 0 || indexes[0] > _resolution[0] ||
             indexes[1] > _resolution[1] || indexes[2] > _resolution[2])
         {
-            return new Color(1, 1, 1, 0);
+            return new NutData(new Color(0, 0, 0, 0), GetNormal(coordinatePosition), t);
+            
         }
         
-        //Maybe not necessary. This ensures a cell's color is only sampled once.
+        // This ensures a cell's color is only sampled once.
         if (oldIndices.Length != 0)
         {
-            if (oldIndices[0] == indexes[0] && oldIndices[0] == indexes[0] && oldIndices[0] == indexes[0])
-                return sampleColorThroughCube(line, copyT + 1, indexes);
+            if (oldIndices[0] == indexes[0] && oldIndices[1] == indexes[1] && oldIndices[2] == indexes[2])
+                return sampleColorThroughCube(line, t + TStepSize, indexes);
         }
         
         Color c = GetColor(coordinatePosition);
-        return c * c.Alpha + sampleColorThroughCube(line, copyT + 1, indexes) * (1 - c.Alpha);
+        // Stop if you gathered enough color to fill up all the transparency.
+        if (Math.Abs(1 - c.Alpha) <= 0.0001)
+            return new NutData(c, GetNormal(coordinatePosition), t);
+
+        NutData returnedData = sampleColorThroughCube(line, t + TStepSize, indexes);
+        
+        Color returnColor = c * c.Alpha + returnedData.c * (1 - c.Alpha);
+        
+        // We want to keep the normal of the point where our ray first intersects the actual solid model.
+        Vector returnNormal = c.Alpha > 0 ? GetNormal(coordinatePosition) : returnedData.normal;
+        // We want to keep the t of the point where our ray first intersects the actual solid model.
+        Double returnT = c.Alpha > 0 ? t : returnedData.t;
+        return new NutData(returnColor, returnNormal, returnT);
     }
-    
+
     public override Intersection GetIntersection(Line line, double minDist, double maxDist)
     {
         List<Intersection> intersections = new List<Intersection>();
-        
+
         intersections.Add(intersectsPlane(line, 1, 0, 0, 0, 0, 1, _v0, minDist, maxDist));
         intersections.Add(intersectsPlane(line, 1, 0, 0, 0, 1, 0, _v0, minDist, maxDist));
         intersections.Add(intersectsPlane(line, 0, 0, 1, 0, 1, 0, _v0, minDist, maxDist));
-        
+
         intersections.Add(intersectsPlane(line, 1, 0, 0, 0, 0, 1, _v1, minDist, maxDist));
         intersections.Add(intersectsPlane(line, 1, 0, 0, 0, 1, 0, _v1, minDist, maxDist));
         intersections.Add(intersectsPlane(line, 0, 0, 1, 0, 1, 0, _v1, minDist, maxDist));
@@ -169,10 +186,10 @@ public class RawCtMask: Geometry
         intersections[3].Material.Ambient = new Color(0f, 0f, 1f, 1);
         intersections[4].Material.Ambient = new Color(1f, 1f, 0f, 1);
         intersections[5].Material.Ambient = new Color(1f, 0f, 1f, 1);
-        
+
         Intersection closestIntersection = Intersection.NONE;
         double t = Double.PositiveInfinity;
-        
+
         foreach (var intersection in intersections)
         {
             if (intersection.Visible && intersection.Valid && intersection.T < t)
@@ -182,13 +199,29 @@ public class RawCtMask: Geometry
             }
         }
 
-        Color c = sampleColorThroughCube(line, t, new int[0]);
-        closestIntersection.Material = Material.FromColor(c);
+
+        if (closestIntersection.Visible && closestIntersection.Valid)
+        {
+                
+            NutData nd = sampleColorThroughCube(line, closestIntersection.T, new int[0]);
+            Color c = nd.c;
+            double newT = nd.t;
+
+            // Not the most elegant way to do this, probably, but it hides the background of the MRI.
+            // The partially see-though parts are still mixed with the default color though.
+            if (Math.Abs(c.Alpha) <= 0.00001)
+                return Intersection.NONE;
+
+            if (newT < 0 && newT < minDist || newT > maxDist)
+            {
+                closestIntersection = Intersection.NONE;
+            }
+            else {
+                closestIntersection = new Intersection(true, true, this, line, newT, nd.normal, Material.FromColor(c), c);
+            }
+        }
+
         
-        // Not the most elegant way to do this, probably, but it hides the background of the MRI.
-        // The partially see-though parts are still mixed with the default color though.
-        if(Math.Abs(c.Blue - 1) <= 0.00001 && Math.Abs(c.Green - 1) <= 0.00001 && Math.Abs(c.Red - 1) <= 0.00001 && c.Alpha <= 0.00001)
-            return Intersection.NONE;
         
         return closestIntersection;
     }

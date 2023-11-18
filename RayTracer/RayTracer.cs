@@ -61,6 +61,8 @@ namespace rt
 
         public void Render(Camera camera, int width, int height, string filename)
         {
+            if(!filename.Contains("33"))
+               return;
             var background = new Color(0.2, 0.2, 0.2, 1.0);
 
             var viewParallel = (camera.Up ^ camera.Direction).Normalize();
@@ -80,13 +82,6 @@ namespace rt
                     Line sightLine = new Line(rayTracingOrigin, rayTracingVector);
 
                     Intersection geometryIntersection =  FindFirstIntersection(sightLine, camera.FrontPlaneDistance, camera.BackPlaneDistance);
-                    if (filename.Contains("17"))
-                    {
-                        if (i == 450 && j == 420)
-                        {
-                            Console.WriteLine(geometryIntersection.Material.Ambient.Red + " " + geometryIntersection.Material.Ambient.Green + " " + geometryIntersection.Material.Ambient.Blue + " ");
-                        }
-                    }
                     
                     Color pixelColor = background;
                     if (geometryIntersection.Valid && geometryIntersection.Visible)

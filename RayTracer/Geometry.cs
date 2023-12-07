@@ -12,8 +12,7 @@
 
         public Geometry(Color color) {
 		    Material = Material.FromColor(color);            
-		    //TODO: check why this changed Material = new Material(color*0.1, color*0.3, color*0.5, 100);
-            Color = color;
+		    Color = color;
         }
 
         public abstract Intersection GetIntersection(Line line, double minDist, double maxDist);

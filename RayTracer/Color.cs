@@ -51,7 +51,6 @@ namespace rt
             var a = Math.Min((int)Math.Ceiling(Alpha * 255), 255);
 
             return System.Drawing.Color.FromArgb(255, r, g, b);
-            //TODO: check why this changed return System.Drawing.Color.FromArgb(a, r, g, b);
         }
 
         public static Color operator +(Color a, Color b)

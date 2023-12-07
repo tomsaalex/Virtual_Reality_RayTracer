@@ -61,7 +61,6 @@ namespace rt
 
             double smallestT = Math.Min(t1, t2);
             
-            //No looking behind check
             double largestT = Math.Max(t1, t2);
             double finalT = smallestT;
 
@@ -71,7 +70,6 @@ namespace rt
                     return new Intersection();
                 finalT = largestT;
             }
-            //end of check
             
             if (finalT < minDist || finalT > maxDist)
                 return new Intersection();
@@ -79,8 +77,7 @@ namespace rt
             Vector V = line.CoordinateToPosition(finalT);
             Vector surfaceNormal = new Vector((V.X - Center.X) / (A * A), (V.Y - Center.Y) / (B * B), (V.Z - Center.Z) / (C * C)).Normalize();
             
-            // TODO: Consider actually refactoring the code to get the right material and color here. Might not be necessary though.
-            return new Intersection(true, true, this, line, finalT, surfaceNormal, this.Material, this.Color);//use smallestT to remove the check
+            return new Intersection(true, true, this, line, finalT, surfaceNormal, this.Material, this.Color);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace rt
         private bool IsLit(Vector point, Light light)
         {
             Line pointToLightRay = new Line(point, light.Position);
-            double pointToLightDistance = 10000;//(point - light.Position).Length();
+            double pointToLightDistance = 10000;
 
             Intersection intersectionInFrontOfLight = FindFirstIntersection(pointToLightRay, 0.3, pointToLightDistance);
             
@@ -61,8 +61,6 @@ namespace rt
 
         public void Render(Camera camera, int width, int height, string filename)
         {
-            if(!filename.Contains("33"))
-               return;
             var background = new Color(0.2, 0.2, 0.2, 1.0);
 
             var viewParallel = (camera.Up ^ camera.Direction).Normalize();

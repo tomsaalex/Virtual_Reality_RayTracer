@@ -48,7 +48,7 @@ namespace rt
             double pointToLightDistance = 10000;
 
             Intersection intersectionInFrontOfLight = FindFirstIntersection(pointToLightRay, 0.3, pointToLightDistance);
-            
+
             if (!intersectionInFrontOfLight.Valid || !intersectionInFrontOfLight.Visible)
             {
                 return true;
@@ -61,6 +61,7 @@ namespace rt
 
         public void Render(Camera camera, int width, int height, string filename)
         {
+            
             var background = new Color(0.2, 0.2, 0.2, 1.0);
 
             var viewParallel = (camera.Up ^ camera.Direction).Normalize();
@@ -72,15 +73,16 @@ namespace rt
                 for (var j = 0; j < height; j++)
                 {
                     Vector rayTracingOrigin = camera.Position;
-                    Vector rayTracingVector = camera.Position + 
+                    Vector rayTracingVector = camera.Position +
                                               camera.Direction * camera.ViewPlaneDistance +
                                               camera.Up * ImageToViewPlane(j, height, camera.ViewPlaneHeight) +
                                               viewParallel * ImageToViewPlane(i, width, camera.ViewPlaneWidth);
 
                     Line sightLine = new Line(rayTracingOrigin, rayTracingVector);
 
-                    Intersection geometryIntersection =  FindFirstIntersection(sightLine, camera.FrontPlaneDistance, camera.BackPlaneDistance);
-                    
+                    Intersection geometryIntersection =
+                        FindFirstIntersection(sightLine, camera.FrontPlaneDistance, camera.BackPlaneDistance);
+
                     Color pixelColor = background;
                     if (geometryIntersection.Valid && geometryIntersection.Visible)
                     {
@@ -88,40 +90,40 @@ namespace rt
                         Vector pointOnSurface = sightLine.CoordinateToPosition(geometryIntersection.T);
                         Vector N = geometryIntersection.Normal;
                         Vector E = (camera.Position - pointOnSurface).Normalize();
-                        
+
                         foreach (Light light in lights)
                         {
-
                             Vector T = (light.Position - pointOnSurface).Normalize();
-                            
+
                             double NTDotProduct = N * T;
-                            
+
                             Vector R = (N * NTDotProduct * 2 - T).Normalize();
-                            
+
                             double ERDotProduct = E * R;
-                            
-                            
+
+
                             pixelColor += geometryIntersection.Material.Ambient * light.Ambient;
-                            
-                            
-                            
+
+
                             if (IsLit(pointOnSurface, light))
                             {
-                                if(NTDotProduct > 0)
+                                if (NTDotProduct > 0)
                                     pixelColor += geometryIntersection.Material.Diffuse * light.Diffuse * NTDotProduct;
-                                if(ERDotProduct > 0)
-                                    pixelColor += geometryIntersection.Material.Specular * light.Specular * Math.Pow(ERDotProduct, geometryIntersection.Geometry.Material.Shininess);
+                                if (ERDotProduct > 0)
+                                    pixelColor += geometryIntersection.Material.Specular * light.Specular *
+                                                  Math.Pow(ERDotProduct,
+                                                      geometryIntersection.Geometry.Material.Shininess);
                             }
                         }
                     }
 
-                    double redComponent   = Math.Clamp(pixelColor.Red, 0, 1);
-                    double blueComponent  = Math.Clamp(pixelColor.Blue, 0, 1);
+                    double redComponent = Math.Clamp(pixelColor.Red, 0, 1);
+                    double blueComponent = Math.Clamp(pixelColor.Blue, 0, 1);
                     double greenComponent = Math.Clamp(pixelColor.Green, 0, 1);
                     double alphaComponent = Math.Clamp(pixelColor.Alpha, 0, 1);
 
                     Color newPixelColor = new Color(redComponent, greenComponent, blueComponent, alphaComponent);
-                    
+
                     image.SetPixel(i, j, newPixelColor);
                 }
             }

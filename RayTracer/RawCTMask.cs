@@ -137,7 +137,7 @@ public class RawCtMask : Geometry
     {
         List<NutData> samplingData = new List<NutData>();
 
-        double stepSizeT = 0.05;
+        double stepSizeT = 0.4;
         
         Vector coordinatePosition = line.CoordinateToPosition(t);
         int[] indexes = GetIndexes(coordinatePosition);
@@ -204,13 +204,6 @@ public class RawCtMask : Geometry
         intersections.Add(intersectsPlane(line, 1, 0, 0, 0, 0, 1, _v1, minDist, maxDist));
         intersections.Add(intersectsPlane(line, 1, 0, 0, 0, 1, 0, _v1, minDist, maxDist));
         intersections.Add(intersectsPlane(line, 0, 0, 1, 0, 1, 0, _v1, minDist, maxDist));
-
-        intersections[0].Material.Ambient = new Color(1f, 1f, 1f, 1);
-        intersections[1].Material.Ambient = new Color(0f, 1f, 0f, 1);
-        intersections[2].Material.Ambient = new Color(1f, 0f, 0f, 1);
-        intersections[3].Material.Ambient = new Color(0f, 0f, 1f, 1);
-        intersections[4].Material.Ambient = new Color(1f, 1f, 0f, 1);
-        intersections[5].Material.Ambient = new Color(1f, 0f, 1f, 1);
 
         Intersection closestIntersection = Intersection.NONE;
         double t = Double.PositiveInfinity;

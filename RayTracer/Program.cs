@@ -46,7 +46,7 @@ namespace rt
                     new ColorMap()
                         .Add(1, 1, new Color(0.7, 0.0, 0.0, 0.05))
                         .Add(2, 2, new Color(0.0, 0.7, 0.0, 1.0))
-                ),  
+                ), 
             };
 
             var lights = new []
